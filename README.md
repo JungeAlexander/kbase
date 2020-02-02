@@ -32,7 +32,9 @@ via Airflow's
 [SequentialExecutor](https://airflow.apache.org/docs/stable/_api/airflow/executors/index.html#airflow.executors.SequentialExecutor).
 
 The Airflow webserver UI is available at: http://localhost:8080
+
 In the UI you can toggle the arXiv pipeline `ingest_arxiv` to "on".
 
 Swagger docs for the database API are available at: http://localhost:80/docs
+
 Code for the API is under `kbase/sql_app`.
