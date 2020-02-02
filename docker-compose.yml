@@ -1,0 +1,48 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:12.1-alpine
+    ports:
+      - "8001:5432"
+    volumes:
+      - ./services/postgres/:/docker-entrypoint-initdb.d/
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - ./config/shared_database.env
+      - ./config/airflow_database.env
+
+  sql_app:
+    build: kbase/sql_app/
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
+    env_file:
+      - ./config/shared_database.env
+
+  airflow:
+    image: puckel/docker-airflow:1.10.7
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    env_file:
+      - ./config/airflow_container.env
+      - ./config/shared_database.env
+    volumes:
+      - ./config/airflow_requirements.txt:/requirements.txt
+      - ./kbase/dags/:/usr/local/airflow/dags
+      # - ./plugins:/usr/local/airflow/plugins
+    logging:
+        options:
+            max-size: 10m
+            max-file: "3"
+    command: webserver
+    healthcheck:
+        test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+        interval: 30s
+        timeout: 30s
+        retries: 3
+
+volumes:
+  pgdata:
