@@ -38,3 +38,17 @@ In the UI you can toggle the arXiv pipeline `ingest_arxiv` to "on".
 Swagger docs for the database API are available at: http://localhost:80/docs
 
 Code for the API is under `kbase/sql_app`.
+
+## Development
+
+Note: setting this up is only required for active development, not for running the code (see Usage for this part).
+
+Using Python version as in `.python-version`.
+Setting up a virtual environment:
+
+```sh
+python -m virtualenv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+pre-commit install
+```

@@ -1,0 +1,10 @@
+alembic
+fastapi
+pydantic
+sqlalchemy
+
+black
+mypy
+pre-commit
+pytest
+pytest-cov
