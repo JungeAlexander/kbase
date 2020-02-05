@@ -43,3 +43,45 @@ def update_article(db: Session, article: schemas.ArticleUpdate) -> models.Articl
     db.commit()
     db.refresh(new_article)
     return new_article
+
+
+def create_user(db: Session, user: schemas.UserCreate) -> models.User:
+    pass
+
+
+def get_user(db: Session, user_id: int) -> models.User:
+    pass
+
+
+def get_user_by_email(db: Session, email: str) -> models.User:
+    pass
+
+
+def get_users(db: Session, skip: int = 0, limit: int = 100) -> Iterable[models.User]:
+    pass
+
+
+def create_user_rating(
+    db: Session, user_rating: schemas.UserRatingCreate, article_id: int, user_id: int
+) -> models.UserRating:
+    pass
+
+
+def get_user_rating(db: Session, user_rating_id: int) -> models.UserRating:
+    pass
+
+
+def get_user_ratings_by_user(db: Session, user_id: int) -> Iterable[models.UserRating]:
+    pass
+
+
+def get_user_ratings_by_article(
+    db: Session, article_id: int
+) -> Iterable[models.UserRating]:
+    pass
+
+
+def get_user_ratings(
+    db: Session, skip: int = 0, limit: int = 100
+) -> Iterable[models.UserRating]:
+    pass
