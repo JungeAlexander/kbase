@@ -1,6 +1,6 @@
 from enum import Enum
 
-from datetime import date
+from datetime import date, datetime
 from typing import List
 
 from pydantic import BaseModel
@@ -40,3 +40,40 @@ class ArticleCreate(Article):
 
 class ArticleUpdate(Article):
     pass
+
+
+class UserRatingBase(BaseModel):
+    pass
+
+
+class UserRatingCreate(UserRatingBase):
+    value: float
+
+
+class UserRating(UserRatingBase):
+    id: int
+    article_id: int
+    user_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class UserBase(BaseModel):
+    email: str
+    name: str
+
+
+class UserCreate(UserBase):
+    password: str
+
+
+class User(UserCreate):
+    id: int
+    created_date: datetime
+    last_login: datetime
+    is_active: bool
+    ratings: List[UserRating] = []
+
+    class Config:
+        orm_mode = True
