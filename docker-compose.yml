@@ -11,6 +11,17 @@ services:
       - ./config/shared_database.env
       - ./config/airflow_database.env
 
+  jnb:
+    image: "jupyter/scipy-notebook:414b5d749704"
+    ports:
+      - "10000:8888"
+    volumes:
+      - ./kbase/notebooks/:/home/jovyan/work
+    env_file:
+      - ./config/shared_database.env
+      - ./config/jupyter.env
+    entrypoint: sh -c 'start-notebook.sh --NotebookApp.token=$$JUPYTER_PASSWORD'
+
   sql_app:
     build: kbase/sql_app/
     ports:

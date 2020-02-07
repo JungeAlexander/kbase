@@ -39,6 +39,10 @@ Swagger docs for the database API are available at: http://localhost:80/docs
 
 Code for the API is under `kbase/sql_app`.
 
+JupyterLab is available at: http://localhost:10000/lab
+
+Jupyter Notebook is available at: http://localhost:10000/
+
 ## Development
 
 Note: setting this up is only required for active development, not for running the code (see Usage for this part).
