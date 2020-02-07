@@ -29,6 +29,8 @@ class Article(SqlAlchemyBase):
     keywords: List[str] = sa.Column(ARRAY(sa.String, dimensions=1))
     references: List[str] = sa.Column(ARRAY(sa.String, dimensions=1))
 
+    ratings = relationship("UserRating", back_populates="rated_by")
+
 
 class User(SqlAlchemyBase):
     __tablename__ = "users"
@@ -57,3 +59,4 @@ class UserRating(SqlAlchemyBase):
     )
 
     rated_by = relationship("User", back_populates="ratings")
+    rated_article = relationship("Article", back_populates="ratings")
