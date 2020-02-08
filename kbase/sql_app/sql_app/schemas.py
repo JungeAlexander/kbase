@@ -69,7 +69,7 @@ class UserCreate(UserBase):
     password: str
 
 
-class User(UserCreate):
+class User(UserBase):
     id: int
     created_date: datetime
     last_login: datetime
