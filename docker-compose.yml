@@ -30,8 +30,6 @@ services:
       - postgres
     env_file:
       - ./config/shared_database.env
-    volumes:
-      - ./kbase/sql_app/sql_app:/app/app
 
   airflow:
     image: puckel/docker-airflow:1.10.7
