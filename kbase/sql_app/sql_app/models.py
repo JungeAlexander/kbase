@@ -29,7 +29,7 @@ class Article(SqlAlchemyBase):
     keywords: List[str] = sa.Column(ARRAY(sa.String, dimensions=1))
     references: List[str] = sa.Column(ARRAY(sa.String, dimensions=1))
 
-    ratings = relationship("UserRating", back_populates="rated_by")
+    ratings = relationship("UserRating", back_populates="rated_article")
 
 
 class User(SqlAlchemyBase):
