@@ -3,20 +3,20 @@ from enum import Enum
 from datetime import date, datetime
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class UserRatingBase(BaseModel):
-    pass
+    value: float
 
 
 class UserRatingCreate(UserRatingBase):
-    value: float
+    pass
 
 
 class UserRating(UserRatingBase):
     id: int
-    article_id: int
+    article_id: str
     user_id: int
 
     class Config:
@@ -61,7 +61,7 @@ class ArticleUpdate(Article):
 
 
 class UserBase(BaseModel):
-    email: str
+    email: EmailStr
     name: str
 
 
