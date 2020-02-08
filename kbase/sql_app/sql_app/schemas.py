@@ -6,6 +6,23 @@ from typing import List
 from pydantic import BaseModel
 
 
+class UserRatingBase(BaseModel):
+    pass
+
+
+class UserRatingCreate(UserRatingBase):
+    value: float
+
+
+class UserRating(UserRatingBase):
+    id: int
+    article_id: int
+    user_id: int
+
+    class Config:
+        orm_mode = True
+
+
 class ArticleType(str, Enum):
     preprint = "preprint"
     postprint = "postprint"
@@ -29,6 +46,7 @@ class Article(BaseModel):
     language: str = ""
     keywords: List[str] = []
     references: List[str] = []
+    ratings: List[UserRating] = []
 
     class Config:
         orm_mode = True
@@ -40,23 +58,6 @@ class ArticleCreate(Article):
 
 class ArticleUpdate(Article):
     pass
-
-
-class UserRatingBase(BaseModel):
-    pass
-
-
-class UserRatingCreate(UserRatingBase):
-    value: float
-
-
-class UserRating(UserRatingBase):
-    id: int
-    article_id: int
-    user_id: int
-
-    class Config:
-        orm_mode = True
 
 
 class UserBase(BaseModel):
