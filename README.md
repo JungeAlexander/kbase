@@ -56,3 +56,9 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 pre-commit install
 ```
+
+Starting a specific service via docker-compose:
+
+```sh
+docker-compose up -d --no-deps --build vue_app
+```
