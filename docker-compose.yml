@@ -31,6 +31,15 @@ services:
     env_file:
       - ./config/shared_database.env
 
+  vue_app:
+    build: kbase/vue_app/
+    ports:
+      - "8088:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - ./kbase/vue_app/vue_app:/app
+
   airflow:
     image: puckel/docker-airflow:1.10.7
     ports:

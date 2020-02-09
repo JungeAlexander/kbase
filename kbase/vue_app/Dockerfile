@@ -7,7 +7,7 @@ RUN npm install -g http-server
 WORKDIR /app
 
 ## copy both 'package.json' and 'package-lock.json' (if available)
-#COPY package*.json ./
+COPY ./vue_app/package*.json ./
 
 # install project dependencies
 RUN npm install
@@ -19,7 +19,4 @@ RUN npm install
 #RUN npm run build
 
 # compiles and hot-reloads for development
-npm run serve
-
-EXPOSE 8080
-CMD [ "http-server", "dist" ]
+RUN npm run serve
