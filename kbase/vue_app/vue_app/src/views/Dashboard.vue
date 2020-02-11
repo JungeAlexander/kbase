@@ -113,7 +113,7 @@ export default {
     articles: []
   }),
   created() {
-    fetch("http://sql_app:80/articles/?limit=10")
+    fetch("http://localhost:8087/articles/?limit=10")
       .then(res => res.json())
       .then(response => {
         this.articles = response;

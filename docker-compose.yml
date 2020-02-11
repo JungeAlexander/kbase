@@ -25,7 +25,7 @@ services:
   sql_app:
     build: kbase/sql_app/
     ports:
-      - "80:80"
+      - "8087:80"
     depends_on:
       - postgres
     env_file:
