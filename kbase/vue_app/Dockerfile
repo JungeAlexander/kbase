@@ -18,11 +18,13 @@ RUN ls -lah
 # install project dependencies
 RUN npm install
 
-# build app for production with minification
-RUN npm run build
-
-## compiles and hot-reloads for development
-#RUN npm run serve
-
 EXPOSE 8080
-CMD [ "http-server", "dist" ]
+CMD ["npm", "run", "serve"]
+
+## build app for production with minification
+#RUN npm run build
+#
+### compiles and hot-reloads for development
+##RUN npm run serve
+#
+#CMD [ "http-server", "dist" ]

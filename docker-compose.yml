@@ -38,8 +38,8 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./kbase/vue_app/vue_app/src/:/src
-      - ./kbase/vue_app/vue_app/public/:/public
+      - ./kbase/vue_app/vue_app/src/:/app/src
+      - ./kbase/vue_app/vue_app/public/:/app/public
 
   airflow:
     image: puckel/docker-airflow:1.10.7
