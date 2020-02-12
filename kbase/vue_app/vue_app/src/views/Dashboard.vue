@@ -85,14 +85,28 @@
           </v-col>
           <v-col xs="3" sm="2" md="1">
             <div>
-              <v-btn fab depressed small dark color="light-blue darken-3" v-on:click="rate(article.id, 1, 1.0)">
+              <v-btn
+                fab
+                depressed
+                small
+                dark
+                color="light-blue darken-3"
+                v-on:click="rate(article.id, 1, 1.0)"
+              >
                 <v-icon>mdi-thumb-up</v-icon>
               </v-btn>
             </div>
           </v-col>
           <v-col xs="3" sm="2" md="1">
             <div>
-              <v-btn fab depressed small dark color="light-blue darken-3" v-on:click="rate(article.id, 1, -1.0)">
+              <v-btn
+                fab
+                depressed
+                small
+                dark
+                color="light-blue darken-3"
+                v-on:click="rate(article.id, 1, -1.0)"
+              >
                 <v-icon>mdi-thumb-down</v-icon>
               </v-btn>
             </div>
@@ -106,6 +120,7 @@
 
 <script>
 // @ is an alias to /src
+import axios from 'axios';
 
 export default {
   name: "home",
@@ -127,11 +142,21 @@ export default {
       this.articles.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
     rate: function(article_id, user_id, score) {
-      //url = "http://localhost:8087/users/" + user_id + "/user_ratings/" + article_id;
+      //url = ;
       // json = {
       //          "value": score
       //        }
-      alert(score + ", " + article_id + ", " + user_id + "!");
+      axios
+        .post("http://localhost:8087/users/" + user_id + "/user_ratings/" + article_id, {
+          value: score,
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      // alert(score + ", " + article_id + ", " + user_id + "!");
     }
   }
 };
