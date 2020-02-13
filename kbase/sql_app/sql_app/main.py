@@ -4,7 +4,6 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
 
-
 from . import crud, schemas
 from .database import create_session, global_init
 
@@ -98,21 +97,66 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.post(
+@app.put("/users/{user_id}", response_model=schemas.User)
+def update_user(user_id: int, user: schemas.UserUpdate, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail=f"User ID {user_id} not found")
+    return crud.update_user(db, user)
+
+
+@app.get(
     "/users/{user_id}/user_ratings/{article_id}", response_model=schemas.UserRating
 )
-def create_rating_for_user(
+def get_rating_for_user(
+    user_id: int, article_id: str, db: Session = Depends(get_db),
+):
+    db_rating = crud.get_user_rating_by_article_and_user(db, article_id, user_id)
+    if db_rating is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"User ID {user_id} has no rating for article ID {article_id}.",
+        )
+    return db_rating
+
+
+@app.put(
+    "/users/{user_id}/user_ratings/{article_id}", response_model=schemas.UserRating
+)
+def update_rating_for_user(
     user_id: int,
     article_id: str,
-    user_rating: schemas.UserRatingCreate,
+    user_rating: schemas.UserRatingUpdate,
     db: Session = Depends(get_db),
 ):
-    return crud.create_user_rating(
-        db=db, user_rating=user_rating, user_id=user_id, article_id=article_id
+    db_rating = crud.get_user_rating_by_article_and_user(db, article_id, user_id)
+    if db_rating is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"User ID {user_id} has no rating for article ID {article_id}.",
+        )
+    new_user_rating = schemas.UserRating(
+        id=db_rating.id, user_id=user_id, article_id=article_id, value=user_rating.value
     )
+    return crud.update_user_rating(db, new_user_rating)
 
 
 @app.get("/user_ratings/", response_model=List[schemas.UserRating])
 def read_user_ratings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     user_ratings = crud.get_user_ratings(db, skip=skip, limit=limit)
     return user_ratings
+
+
+@app.post("/user_ratings/", response_model=schemas.UserRating)
+def create_rating_for_user(
+    user_rating: schemas.UserRatingCreate, db: Session = Depends(get_db),
+):
+    article_id = user_rating.article_id
+    user_id = user_rating.user_id
+    db_user_rating = crud.get_user_rating_by_article_and_user(db, article_id, user_id)
+    if db_user_rating:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Rating for article id {article_id} by user id {user_id} already registered",
+        )
+    return crud.create_user_rating(db=db, user_rating=user_rating)

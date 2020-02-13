@@ -11,16 +11,19 @@ class UserRatingBase(BaseModel):
 
 
 class UserRatingCreate(UserRatingBase):
-    pass
-
-
-class UserRating(UserRatingBase):
-    id: int
     article_id: str
     user_id: int
 
+
+class UserRating(UserRatingCreate):
+    id: int
+
     class Config:
         orm_mode = True
+
+
+class UserRatingUpdate(UserRatingBase):
+    pass
 
 
 class ArticleType(str, Enum):
@@ -67,6 +70,11 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+
+
+# TODO how to password changes/reset?
+class UserUpdate(UserBase):
+    pass
 
 
 class User(UserBase):
