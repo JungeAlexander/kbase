@@ -50,7 +50,6 @@ class ArticleBase(BaseModel):
     language: str = ""
     keywords: List[str] = []
     references: List[str] = []
-    ratings: List[UserRating] = []
 
 
 class ArticleCreate(ArticleBase):
@@ -63,6 +62,7 @@ class ArticleUpdate(ArticleBase):
 
 class Article(ArticleBase):
     modified_date: datetime
+    ratings: List[UserRating] = []
 
     class Config:
         orm_mode = True

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
@@ -136,7 +137,11 @@ def update_rating_for_user(
             detail=f"User ID {user_id} has no rating for article ID {article_id}.",
         )
     new_user_rating = schemas.UserRating(
-        id=db_rating.id, user_id=user_id, article_id=article_id, value=user_rating.value
+        id=db_rating.id,
+        user_id=user_id,
+        article_id=article_id,
+        value=user_rating.value,
+        modified_date=datetime.now(),
     )
     return crud.update_user_rating(db, new_user_rating)
 

@@ -37,6 +37,7 @@ def create_article(db: Session, article: schemas.ArticleCreate) -> models.Articl
 
 
 def update_article(db: Session, article: schemas.ArticleUpdate) -> models.Article:
+    # TODO does not seem to update modified_date
     new_article = models.Article(**article.dict())
     old_article = get_article(db, new_article.id)
     db.delete(old_article)
@@ -143,7 +144,7 @@ def get_user_rating_by_article_and_user(
             (models.UserRating.article_id == article_id)
             & (models.UserRating.user_id == user_id)
         )
-        .all()
+        .first()
     )
 
 
