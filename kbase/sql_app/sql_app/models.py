@@ -20,6 +20,7 @@ class Article(SqlAlchemyBase):
     title: str = sa.Column(sa.String)
     publication_date: date = sa.Column(sa.Date, index=True)
     update_date: date = sa.Column(sa.Date, index=True)
+    modified_date = sa.Column(sa.DateTime, default=datetime.now, index=True)
     link: str = sa.Column(sa.String)
     doid: str = sa.Column(sa.String)
     summary: str = sa.Column(sa.String)
@@ -57,6 +58,7 @@ class UserRating(SqlAlchemyBase):
     user_id = sa.Column(
         sa.Integer, sa.ForeignKey("users.id"), nullable=False, index=True
     )
+    modified_date = sa.Column(sa.DateTime, default=datetime.now, index=True)
 
     rated_by = relationship("User", back_populates="ratings")
     rated_article = relationship("Article", back_populates="ratings")

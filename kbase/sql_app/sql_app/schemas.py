@@ -17,6 +17,7 @@ class UserRatingCreate(UserRatingBase):
 
 class UserRating(UserRatingCreate):
     id: int
+    modified_date: datetime
 
     class Config:
         orm_mode = True
@@ -41,6 +42,7 @@ class Article(BaseModel):
     title: str
     publication_date: date
     update_date: date
+    modified_date: datetime
     link: str
     doid: str = ""
     summary: str = ""
