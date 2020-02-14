@@ -33,7 +33,7 @@ class ArticleType(str, Enum):
     proceeding = "proceeding"
 
 
-class Article(BaseModel):
+class ArticleBase(BaseModel):
     id: str
     version: str
     source: str
@@ -42,7 +42,6 @@ class Article(BaseModel):
     title: str
     publication_date: date
     update_date: date
-    modified_date: datetime
     link: str
     doid: str = ""
     summary: str = ""
@@ -53,16 +52,20 @@ class Article(BaseModel):
     references: List[str] = []
     ratings: List[UserRating] = []
 
+
+class ArticleCreate(ArticleBase):
+    pass
+
+
+class ArticleUpdate(ArticleBase):
+    pass
+
+
+class Article(ArticleBase):
+    modified_date: datetime
+
     class Config:
         orm_mode = True
-
-
-class ArticleCreate(Article):
-    pass
-
-
-class ArticleUpdate(Article):
-    pass
 
 
 class UserBase(BaseModel):
