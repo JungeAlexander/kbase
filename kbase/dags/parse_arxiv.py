@@ -18,7 +18,7 @@ def parse_arxix(input_query: str) -> None:
     sleep(10)
     query = arxiv.query(
         query=input_query,
-        max_results=10,
+        max_results=1,
         iterative=True,
         # max_chunk_results=10,
         sort_by="lastUpdatedDate",
@@ -46,20 +46,18 @@ def parse_arxix(input_query: str) -> None:
             tags.append(tag["term"])
         d["keywords"] = tags
 
-        get_r = requests.get(f"http://sql_app:8087/articles/{d['id']}")
+        get_r = requests.get(f"http://sql_app:80/articles/{d['id']}")
         if get_r.status_code == 200:
             # existing_article = Article.parse_raw(get_r.text)
             payload = ArticleUpdate(**d).json()
-            put_r = requests.put(
-                f"http://sql_app:8087/articles/{d['id']}", data=payload
-            )
+            put_r = requests.put(f"http://sql_app:80/articles/{d['id']}", data=payload)
             if put_r.status_code != 200:
                 logging.warning(
                     f"PUT failed with code {put_r.status_code} {put_r.json()} for:{os.linesep}{payload}"
                 )
         elif get_r.status_code == 404:
             payload = ArticleCreate(**d).json()
-            post_r = requests.post("http://sql_app:8087/articles/", data=payload)
+            post_r = requests.post("http://sql_app:80/articles/", data=payload)
             if post_r.status_code != 200:
                 logging.warning(
                     f"POST failed with code {post_r.status_code} {post_r.json()} for:{os.linesep}{payload}"

@@ -16,7 +16,7 @@
             <template v-slot:activator="{ on }">
               <v-btn small text color="grey" v-on="on" @click="sortBy('title')">
                 <v-icon small left>mdi-format-title</v-icon>
-                <span class="caption text-lowercase">By project name</span>
+                <span class="caption text-lowercase">By title</span>
               </v-btn>
             </template>
             <span>Sort by project name</span>
@@ -90,6 +90,7 @@
                 depressed
                 small
                 dark
+                :outlined="user_liked_article(article.id, 1, -1.0)"
                 color="light-blue darken-3"
                 v-on:click="rate(article.id, 1, 1.0)"
               >
@@ -104,6 +105,7 @@
                 depressed
                 small
                 dark
+                :outlined="user_disliked_article(article.id, 1, -1.0)"
                 color="light-blue darken-3"
                 v-on:click="rate(article.id, 1, -1.0)"
               >
@@ -120,7 +122,7 @@
 
 <script>
 // @ is an alias to /src
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "home",
@@ -141,14 +143,17 @@ export default {
     sortBy(prop) {
       this.articles.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
-    rate: function(article_id, user_id, score) {
+    rate: function(article, user, score) {
       //url = ;
       // json = {
       //          "value": score
       //        }
       axios
-        .post("http://localhost:8087/users/" + user_id + "/user_ratings/" + article_id, {
+        .post("http://localhost:8087/user_ratings/", {
+          //.post("http://localhost:8087/users/" + user_id + "/user_ratings/" + article_id, {
           value: score,
+          article_id: article,
+          user_id: user
         })
         .then(function(response) {
           console.log(response);
@@ -156,7 +161,22 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
-      // alert(score + ", " + article_id + ", " + user_id + "!");
+    },
+    user_liked_article: function(article, user) {
+      axios
+        .get("http://localhost:8087/users/" + user + "/user_ratings/" + article)
+        .then(function(response) {
+          console.log(response);
+          return false;
+        });
+    },
+    user_disliked_article: function(article, user) {
+      axios
+        .get("http://localhost:8087/users/" + user + "/user_ratings/" + article)
+        .then(function(response) {
+          console.log(response);
+          return false;
+        });
     }
   }
 };
