@@ -165,7 +165,10 @@ export default {
     get_user_article_rating: function(article, user, ratings) {
       console.log("Article: " + article);
       console.log("User: " + user);
-      console.log("Ratings: " + ratings);
+      var i;
+      for (i = 0; i < ratings.length; i++) {
+        console.log("Ratings " + i + ":" + ratings[i].user_id + "--" + ratings[i].value);
+      }
       return 1; // TODO pull this from ratings
     },
     user_liked_article: function(article, user, ratings) {
