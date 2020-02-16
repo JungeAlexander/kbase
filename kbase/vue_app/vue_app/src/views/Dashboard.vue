@@ -90,7 +90,7 @@
                 depressed
                 small
                 dark
-                :outlined="user_liked_article(article.id, 1, -1.0)"
+                :outlined="user_liked_article(article.id, 1)"
                 color="light-blue darken-3"
                 v-on:click="rate(article.id, 1, 1.0)"
               >
@@ -105,7 +105,7 @@
                 depressed
                 small
                 dark
-                :outlined="user_disliked_article(article.id, 1, -1.0)"
+                :outlined="user_disliked_article(article.id, 1)"
                 color="light-blue darken-3"
                 v-on:click="rate(article.id, 1, -1.0)"
               >
@@ -162,21 +162,39 @@ export default {
           console.log(error);
         });
     },
-    user_liked_article: function(article, user) {
+    user_rated_article: function(article, user) {
       axios
         .get("http://localhost:8087/users/" + user + "/user_ratings/" + article)
+        .catch(function(error) {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        })
         .then(function(response) {
-          console.log(response);
-          return false;
+          //console.log(response.data.value);
+          return response.data.value;
         });
     },
+    user_liked_article: function(article, user) {
+      const res = this.user_rated_article(article, user);
+      console.log(res);
+      return this.user_rated_article(article, user) == 1;
+    },
     user_disliked_article: function(article, user) {
-      axios
-        .get("http://localhost:8087/users/" + user + "/user_ratings/" + article)
-        .then(function(response) {
-          console.log(response);
-          return false;
-        });
+      return this.user_rated_article(article, user, -1);
     }
   }
 };
