@@ -90,7 +90,7 @@
                 depressed
                 small
                 dark
-                :outlined="user_liked_article(article.id, 1, article.ratings)"
+                :outlined="user_liked_article(1, article.ratings)"
                 color="light-blue darken-3"
                 v-on:click="rate(article.id, 1, 1.0)"
               >
@@ -105,7 +105,7 @@
                 depressed
                 small
                 dark
-                :outlined="user_disliked_article(article.id, 1, article.ratings)"
+                :outlined="user_disliked_article(1, article.ratings)"
                 color="light-blue darken-3"
                 v-on:click="rate(article.id, 1, -1.0)"
               >
@@ -162,20 +162,26 @@ export default {
           console.log(error);
         });
     },
-    get_user_article_rating: function(article, user, ratings) {
-      console.log("Article: " + article);
-      console.log("User: " + user);
+    get_user_article_rating: function(user, ratings) {
+      // console.log("Article: " + article);
+      //console.log("User: " + user);
+      if (typeof ratings === 'undefined') {
+        return 0;
+      }
       var i;
       for (i = 0; i < ratings.length; i++) {
-        console.log("Ratings " + i + ":" + ratings[i].user_id + "--" + ratings[i].value);
+        // console.log("Ratings " + i + ":" + ratings[i].user_id + "--" + ratings[i].value);
+        if (ratings[i].user_id == user) {
+          return ratings[i].value;
+        }
       }
-      return 1; // TODO pull this from ratings
+      return 0;
     },
-    user_liked_article: function(article, user, ratings) {
-      return this.get_user_article_rating(article, user, ratings) == 1;
+    user_liked_article: function(user, ratings) {
+      return this.get_user_article_rating(user, ratings) == 1;
     },
-    user_disliked_article: function(article, user, ratings) {
-      return this.get_user_article_rating(article, user, ratings) == -1;
+    user_disliked_article: function(user, ratings) {
+      return this.get_user_article_rating(user, ratings) == -1;
     }
   }
 };
