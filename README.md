@@ -62,3 +62,15 @@ Starting a specific service via docker-compose:
 ```sh
 docker-compose up -d --no-deps --build vue_app
 ```
+
+Backup data in postgres database:
+
+```sh
+docker run --rm -v kbase_pgdata:/volume -v /Users/alexanderjunge/Code/kbase/mybackup:/backup alpine tar -cjf /backup/pgdata_archive.tar.bz2 -C /volume ./
+```
+
+Restore data:
+
+```sh
+docker run --rm -v kbase_pgdata:/volume -v /Users/alexanderjunge/Code/kbase/mybackup:/backup alpine sh -c "rm -rf /volume/* /volume/.* ; tar -C /volume/ -xjf /backup/pgdata_archive.tar.bz2"
+```
