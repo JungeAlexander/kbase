@@ -4,11 +4,7 @@ services:
     image: postgres:12.1-alpine
     ports:
       - "8001:5432"
-    restart_policy:
-      condition: on-failure
-      delay: 10s
-      max_attempts: 3
-      window: 120s
+    restart: always
     volumes:
       - ./services/postgres/:/docker-entrypoint-initdb.d/
       - pgdata:/var/lib/postgresql/data
@@ -20,11 +16,7 @@ services:
     image: "jupyter/scipy-notebook:414b5d749704"
     ports:
       - "10000:8888"
-    restart_policy:
-      condition: on-failure
-      delay: 10s
-      max_attempts: 3
-      window: 120s
+    restart: always
     volumes:
       - ./kbase/notebooks/:/home/jovyan/work
     env_file:
@@ -36,11 +28,7 @@ services:
     build: kbase/sql_app/
     ports:
       - "8087:80"
-    restart_policy:
-      condition: on-failure
-      delay: 10s
-      max_attempts: 3
-      window: 120s
+    restart: always
     depends_on:
       - postgres
     env_file:
@@ -50,11 +38,7 @@ services:
     build: kbase/vue_app/
     ports:
       - "8088:8080"
-    restart_policy:
-      condition: on-failure
-      delay: 10s
-      max_attempts: 3
-      window: 120s
+    restart: always
     depends_on:
       - postgres
     volumes:
@@ -65,11 +49,7 @@ services:
     image: puckel/docker-airflow:1.10.7
     ports:
       - "8080:8080"
-    restart_policy:
-      condition: on-failure
-      delay: 10s
-      max_attempts: 3
-      window: 120s
+    restart: always
     depends_on:
       - postgres
     env_file:
@@ -95,25 +75,19 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
-    restart_policy:
-      condition: on-failure
-      delay: 10s
-      max_attempts: 3
-      window: 120s
+    restart: always
     depends_on:
       - postgres
     env_file:
       - ./config/elasticsearch.env
 
-    kibana:
-      image: kibana:7.6.0
-      ports:
-        - "5601:5601"
-      restart_policy:
-        condition: on-failure
-        delay: 10s
-        max_attempts: 3
-        window: 120s
+  kibana:
+    image: kibana:7.6.0
+    ports:
+      - "5601:5601"
+    restart: always
+    depends_on:
+      - elastic
 
 volumes:
   pgdata:
