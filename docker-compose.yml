@@ -70,24 +70,24 @@ services:
         timeout: 30s
         retries: 3
 
-  elastic:
-    image: elasticsearch:7.6.0
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    restart: always
-    depends_on:
-      - postgres
-    env_file:
-      - ./config/elasticsearch.env
-
-  kibana:
-    image: kibana:7.6.0
-    ports:
-      - "5601:5601"
-    restart: always
-    depends_on:
-      - elastic
+#  elastic:
+#    image: elasticsearch:7.6.0
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    restart: always
+#    depends_on:
+#      - postgres
+#    env_file:
+#      - ./config/elasticsearch.env
+#
+#  kibana:
+#    image: kibana:7.6.0
+#    ports:
+#      - "5601:5601"
+#    restart: always
+#    depends_on:
+#      - elastic
 
 volumes:
   pgdata:

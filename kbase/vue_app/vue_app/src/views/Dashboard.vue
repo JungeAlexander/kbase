@@ -113,6 +113,14 @@
               </v-btn>
             </div>
           </v-col>
+          <v-col xs="12" md="12">
+            <div class="caption grey--text">Content</div>
+            <div>{{ article.summary }}</div>
+          </v-col>
+          <v-col xs="12" md="12">
+            <div class="caption grey--text">Authors</div>
+            <div>{{ article.authors }}</div>
+          </v-col>
         </v-row>
         <v-divider></v-divider>
       </v-card>
@@ -165,7 +173,7 @@ export default {
     get_user_article_rating: function(user, ratings) {
       // console.log("Article: " + article);
       //console.log("User: " + user);
-      if (typeof ratings === 'undefined') {
+      if (typeof ratings === "undefined") {
         return 0;
       }
       var i;

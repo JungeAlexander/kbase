@@ -18,7 +18,7 @@ def parse_arxix(input_query: str) -> None:
     sleep(10)
     query = arxiv.query(
         query=input_query,
-        max_results=1,
+        max_results=50,
         iterative=True,
         # max_chunk_results=10,
         sort_by="lastUpdatedDate",
