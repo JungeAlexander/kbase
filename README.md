@@ -1,4 +1,4 @@
-# Querying arXiv preprints using Apache Airflow
+# Querying arXiv preprints using Apache Airflow and labeling interesting articles
 
 An Apache Airflow pipeline to
 download recent articles from the arXiv preprint server.
@@ -10,6 +10,12 @@ as well as [Pydantic](https://github.com/samuelcolvin/pydantic/) models to defin
 The setup looks like this:
 
 ![Overview](https://github.com/JungeAlexander/kbase/blob/arxiv_airflow_fastapi_psql/doc/img/overview.png)
+
+The web application for labeling articles looks like this:
+
+![UI](https://github.com/JungeAlexander/kbase/blob/arxiv_airflow_fastapi_psql/doc/img/vue_app_ui.png)
+
+Up- and downvotes are stored in the PostgreSQL via the REST API, too.
 
 ## Usage
 
@@ -42,6 +48,8 @@ Code for the API is under `kbase/sql_app`.
 JupyterLab is available at: http://localhost:10000/lab
 
 Jupyter Notebook is available at: http://localhost:10000/
+
+The Vue app is available at: http://localhost:8088
 
 ## Development
 
