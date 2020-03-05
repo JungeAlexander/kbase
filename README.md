@@ -13,7 +13,7 @@ The setup looks like this:
 
 The web application for labeling articles looks like this:
 
-![UI](https://github.com/JungeAlexander/kbase/blob/arxiv_airflow_fastapi_psql/doc/img/vue_app_ui.png)
+![UI](https://github.com/JungeAlexander/kbase/blob/user_ratings/doc/img/vue_app_ui.png)
 
 Up- and downvotes are stored in the PostgreSQL via the REST API, too.
 
