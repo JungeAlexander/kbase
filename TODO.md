@@ -19,9 +19,15 @@
 
 ## Recommender sys
 
+### Filter articles shown to user
+
+- only recommend articles to the user that are "new" and "potentially relevant" to the user
+    - measuring "new": never looked at before?
+    - measuring "relevant": ?
+
 ### Padding strategy
 
-- what's the influence of padding?
+- what's the influence of padding sentences to longest?
 
 ## Airflow
 
