@@ -13,9 +13,10 @@
 
 ## REST APIs
 
-### user authentication
+### user accounts
 
-- integrated with web app
+- authentication integrated with web app
+- password changes/reset?
 
 ## Recommender sys
 
