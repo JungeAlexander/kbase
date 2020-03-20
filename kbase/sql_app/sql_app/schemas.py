@@ -48,6 +48,11 @@ class Embedding(EmbeddingCreate):
         orm_mode = True
 
 
+class Recommendation:
+    article_id: str
+    score: float
+
+
 class ArticleType(str, Enum):
     preprint = "preprint"
     postprint = "postprint"
