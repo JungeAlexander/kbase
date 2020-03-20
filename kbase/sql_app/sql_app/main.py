@@ -12,7 +12,7 @@ global_init()
 
 app = FastAPI(
     title="kbase article store",
-    description="Retrieve and update articles in kbase.",
+    description="Retrieve, update, and recommend articles in kbase.",
     version="v1",
 )
 
