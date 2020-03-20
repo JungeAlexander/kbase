@@ -15,6 +15,10 @@ class UserRatingCreate(UserRatingBase):
     user_id: int
 
 
+class UserRatingUpdate(UserRatingBase):
+    pass
+
+
 class UserRating(UserRatingCreate):
     id: int
     modified_date: datetime
@@ -23,8 +27,25 @@ class UserRating(UserRatingCreate):
         orm_mode = True
 
 
-class UserRatingUpdate(UserRatingBase):
+class EmbeddingBase(BaseModel):
+    model: str
+    vector: List[float]
+
+
+class EmbeddingCreate(EmbeddingBase):
+    article_id: str
+
+
+class EmbeddingUpdate(EmbeddingBase):
     pass
+
+
+class Embedding(EmbeddingCreate):
+    id: int
+    modified_date: datetime
+
+    class Config:
+        orm_mode = True
 
 
 class ArticleType(str, Enum):
@@ -77,7 +98,6 @@ class UserCreate(UserBase):
     password: str
 
 
-# TODO how to password changes/reset?
 class UserUpdate(UserBase):
     pass
 
