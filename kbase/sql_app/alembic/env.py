@@ -1,6 +1,8 @@
 from logging.config import fileConfig
 import os
+import sys
 
+from dotenv import load_dotenv
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
@@ -10,6 +12,13 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
+# this will overwrite the sqlalchemy.url path in alembic.ini
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+load_dotenv(os.path.join(folder, "config", "shared_database.env"))
+password = os.environ["SHARED_PASSWORD"]
+url = f"postgresql://shareduser:{password}@localhost:8001/shared"
+config.set_main_option("sqlalchemy.url", os.environ["DATABASE_URL"])
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
@@ -18,7 +27,11 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, folder)
+from sql_app.database import SqlAlchemyBase
+
+target_metadata = SqlAlchemyBase.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -38,9 +51,7 @@ def run_migrations_offline():
     script output.
 
     """
-    password = os.environ["SHARED_PASSWORD"]
     url = config.get_main_option("sqlalchemy.url")
-    url = url.format(password=password)
     context.configure(
         url=url,
         target_metadata=target_metadata,
