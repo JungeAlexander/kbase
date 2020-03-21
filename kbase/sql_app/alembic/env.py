@@ -1,4 +1,5 @@
 from logging.config import fileConfig
+import os
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
@@ -37,7 +38,9 @@ def run_migrations_offline():
     script output.
 
     """
+    password = os.environ["SHARED_PASSWORD"]
     url = config.get_main_option("sqlalchemy.url")
+    url = url.format(password=password)
     context.configure(
         url=url,
         target_metadata=target_metadata,
