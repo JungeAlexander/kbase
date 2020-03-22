@@ -31,6 +31,7 @@ class Article(SqlAlchemyBase):
     references: List[str] = sa.Column(ARRAY(sa.String, dimensions=1))
 
     ratings = relationship("UserRating", back_populates="rated_article")
+    embeddings = relationship("Embedding", back_populates="embedded_article")
 
 
 class User(SqlAlchemyBase):
@@ -62,3 +63,17 @@ class UserRating(SqlAlchemyBase):
 
     rated_by = relationship("User", back_populates="ratings")
     rated_article = relationship("Article", back_populates="ratings")
+
+
+class Embedding(SqlAlchemyBase):
+    __tablename__ = "embeddings"
+
+    id = sa.Column(sa.Integer, primary_key=True, index=True)
+    article_id = sa.Column(
+        sa.String, sa.ForeignKey("articles.id"), nullable=False, index=True
+    )
+    model = sa.Column(sa.String, nullable=False, index=True)
+    modified_date = sa.Column(sa.DateTime, default=datetime.now)
+    vector = sa.Column(ARRAY(sa.Float, dimensions=1))
+
+    embedded_article = relationship("Article", back_populates="embeddings")
