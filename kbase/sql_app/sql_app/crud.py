@@ -152,3 +152,9 @@ def get_user_ratings(
     db: Session, skip: int = 0, limit: int = 100
 ) -> Iterable[models.UserRating]:
     return db.query(models.UserRating).offset(skip).limit(limit).all()
+
+
+def get_embeddings(
+    db: Session, skip: int = 0, limit: int = 100
+) -> Iterable[models.Embedding]:
+    return db.query(models.Embedding).offset(skip).limit(limit).all()

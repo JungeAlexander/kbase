@@ -165,3 +165,9 @@ def create_rating_for_user(
             detail=f"Rating for article id {article_id} by user id {user_id} already registered",
         )
     return crud.create_user_rating(db=db, user_rating=user_rating)
+
+
+@app.get("/embeddings/", response_model=List[schemas.Embedding])
+def read_embeddings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    embeddings = crud.get_embeddings(db, skip=skip, limit=limit)
+    return embeddings

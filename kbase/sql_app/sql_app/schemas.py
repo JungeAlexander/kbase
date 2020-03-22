@@ -89,6 +89,7 @@ class ArticleUpdate(ArticleBase):
 class Article(ArticleBase):
     modified_date: datetime
     ratings: List[UserRating] = []
+    embeddings: List[Embedding] = []
 
     class Config:
         orm_mode = True
