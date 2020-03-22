@@ -17,7 +17,7 @@ folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..
 load_dotenv(os.path.join(folder, "config", "shared_database.env"))
 password = os.environ["SHARED_PASSWORD"]
 url = f"postgresql://shareduser:{password}@localhost:8001/shared"
-config.set_main_option("sqlalchemy.url", os.environ["DATABASE_URL"])
+config.set_main_option("sqlalchemy.url", url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -29,8 +29,9 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, folder)
-from sql_app.database import SqlAlchemyBase
+from sql_app.database import SqlAlchemyBase, global_init
 
+global_init()
 target_metadata = SqlAlchemyBase.metadata
 
 # other values from the config, defined by the needs of env.py,
