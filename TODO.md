@@ -20,10 +20,6 @@
 
 ## Recommender sys
 
-## Pretrained models
-
-- bake into Docker container
-
 ### Filter articles shown to user
 
 - only recommend articles to the user that are "new" and "potentially relevant" to the user

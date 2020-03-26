@@ -4,4 +4,7 @@ COPY requirements.txt /
 RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
 
+COPY download_model.py /
+RUN ["/download_model.py"]
+
 COPY ./sql_app /app/app
