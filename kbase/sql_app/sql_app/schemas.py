@@ -48,7 +48,7 @@ class Embedding(EmbeddingCreate):
         orm_mode = True
 
 
-class Recommendation:
+class Recommendation(BaseModel):
     article_id: str
     score: float
 
