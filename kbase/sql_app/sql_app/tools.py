@@ -7,7 +7,7 @@ def get_article_texts(article_ids: List[str]) -> List[str]:
     texts = []
     for aid in article_ids:
         article = main.read_article(aid)
-        title = article.title
+        title = article.title.strip()
         if title[-1] not in "!?.":
             title += "."
         summary = article.summary.strip()
