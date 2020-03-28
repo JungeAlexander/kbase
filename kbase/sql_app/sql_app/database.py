@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 import os
 
 from sqlalchemy import create_engine
@@ -36,3 +37,20 @@ def create_session() -> Session:
     session.expire_on_commit = False
 
     return session
+
+
+@contextmanager
+def session_scope():
+    """Provide a transactional scope around a series of operations."""
+    global SessionLocal
+
+    session: Session = SessionLocal()
+
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
