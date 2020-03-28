@@ -33,6 +33,8 @@ services:
       - postgres
     env_file:
       - ./config/shared_database.env
+    environment:
+      - WORKERS_PER_CORE=0.25
 
   vue_app:
     build: kbase/vue_app/
