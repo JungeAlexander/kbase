@@ -82,3 +82,30 @@ Restore data:
 ```sh
 docker run --rm -v kbase_pgdata:/volume -v /Users/alexanderjunge/Code/kbase/mybackup:/backup alpine sh -c "rm -rf /volume/* /volume/.* ; tar -C /volume/ -xjf /backup/pgdata_archive.tar.bz2"
 ```
+
+Export all tables in postgres db as gzipped tsv files, do inside psql container:
+
+```sh
+SCHEMA="public"
+DB="shared"
+USER="shareduser"
+
+export_dir="/var/lib/postgresql/data/export"
+
+mkdir $export_dir
+cd $export_dir
+
+psql --db $DB --username $USER -Atc "select tablename from pg_tables where schemaname='$SCHEMA'" |\
+  while read TBL; do
+    psql --db $DB --username $USER -c "COPY $SCHEMA.$TBL TO STDOUT WITH NULL AS '' DELIMITER E'\t' CSV HEADER ENCODING 'UTF-8'" > $TBL.tsv
+    gzip -9 $TBL.tsv
+  done
+```
+
+Copy gzipped tsv files to disc:
+
+```sh
+docker run --rm -v kbase_pgdata:/volume -v /Users/alexanderjunge/Code/kbase/mybackup:/backup alpine tar -cjf /backup/pgdata_export.tar.bz2 -C /volume/export ./
+tar xzf pgdata_export.tar.bz2
+rm pgdata_export.tar.bz2
+```
