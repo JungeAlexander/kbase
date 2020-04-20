@@ -83,7 +83,7 @@ Restore data:
 docker run --rm -v kbase_pgdata:/volume -v /Users/alexanderjunge/Code/kbase/mybackup:/backup alpine sh -c "rm -rf /volume/* /volume/.* ; tar -C /volume/ -xjf /backup/pgdata_archive.tar.bz2"
 ```
 
-Export all tables in postgres db as gzipped tsv files, do inside psql container:
+Export all tables in postgres db as gzipped tsv files and SQL dump, do inside psql container:
 
 ```sh
 SCHEMA="public"
@@ -100,6 +100,8 @@ psql --db $DB --username $USER -Atc "select tablename from pg_tables where schem
     psql --db $DB --username $USER -c "COPY $SCHEMA.$TBL TO STDOUT WITH NULL AS '' DELIMITER E'\t' CSV HEADER ENCODING 'UTF-8'" > $TBL.tsv
     gzip -9 $TBL.tsv
   done
+
+pg_dump dbname=shared --username shareduser -f /var/lib/postgresql/data/export/mydbdump.sql 
 ```
 
 Copy gzipped tsv files to disc:
@@ -108,4 +110,6 @@ Copy gzipped tsv files to disc:
 docker run --rm -v kbase_pgdata:/volume -v /Users/alexanderjunge/Code/kbase/mybackup:/backup alpine tar -cjf /backup/pgdata_export.tar.bz2 -C /volume/export ./
 tar xzf pgdata_export.tar.bz2
 rm pgdata_export.tar.bz2
+
+docker run --rm -v kbase_pgdata:/volume -v /Users/alexanderjunge/Code/kbase/mybackup:/backup alpine cp /volume/export/mydbdump.sql /backup/
 ```

@@ -1,6 +1,7 @@
 alembic
 boto3==1.12.41
 fastapi
+jupyter==1.0.0
 passlib
 pydantic
 sqlalchemy
